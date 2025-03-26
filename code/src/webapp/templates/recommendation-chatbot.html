@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      max-width: 70%;
+    }
+
+    .user {
+      background-color: #3b82f6;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background-color: #e5e7eb;
+      color: black;
+      align-self: flex-start;
+    }
+
+    .typing {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .input-container {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 0 0 0 8px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0 0 8px 0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox">
+      <div class="message bot">Hello! Welcome to Wealth Recommendation System. How can I help you today?</div>
+    </div>
+    <div class="input-container">
+      <input
+        type="text"
+        id="userInput"
+        placeholder="Type a message..."
+      />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "/chatbot?userMessage="; // Replace with your API endpoint
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (message === "") return;
+
+      // Add user message
+      addMessage(message, "user");
+      input.value = "";
+
+      // Show typing indicator
+      setTimeout(() => {
+        addTyping();
+      }, 300);
+
+      try {
+        const response = await fetch(API_URL+message, {
+          method: "GET"
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          // body: JSON.stringify({ message: message }),
+        });
+
+        if (!response.ok) {
+          throw new Error("API request failed");
+        }
+
+        const data = await response.text();
+        const botReply = data || "I'm here to help. Can you be more specific?";
+
+        // Remove typing indicator and show bot response
+        removeTyping();
+        addMessage(botReply, "bot");
+      } catch (error) {
+        removeTyping();
+        addMessage("Error: Unable to connect to the server.", "bot");
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chatBox = document.getElementById("chatBox");
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message ${sender}`;
+      messageDiv.innerText = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function addTyping() {
+      const chatBox = document.getElementById("chatBox");
+      const typingDiv = document.createElement("div");
+      typingDiv.id = "typing";
+      typingDiv.className = "typing";
+      typingDiv.innerText = "Bot is typing...";
+      chatBox.appendChild(typingDiv);
+    }
+
+    function removeTyping() {
+      const typingDiv = document.getElementById("typing");
+      if (typingDiv) typingDiv.remove();
+    }
+  </script>
+</body>
+</html>
