@@ -114,7 +114,7 @@ each layer of the platform presents unique development, scalability, and complia
    ```
 3. Run the project  
    ```sh
-   python recommendationSystem-microservice.py
+   python golden_basket.py
    
  ## 🏗️ Tech Stack
    
