@@ -114,7 +114,7 @@ each layer of the platform presents unique development, scalability, and complia
    ```
 3. Run the project  
    ```sh
-   npm start  # or python app.py
+   python recommendationSystem-microservice.py
    
  ## 🏗️ Tech Stack
    
