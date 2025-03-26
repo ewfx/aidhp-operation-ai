@@ -73,7 +73,7 @@ investor_profile = {
 def get_recommendation_reasons(stock, investor):
     return [
         f"{stock['ticker']} is in the **{stock['sector']}** sector, aligning with the investor’s preferred industries.",
-        f"The stock’s **volatility of {stock['volatility']}** matches well with the investor’s risk tolerance of {investor['risk_score']}.",
+        f"The stock’s **volatility of {stock['volatility']}** matches well with the investor’s risk tolerance of {investor['Risk_Score']}.",
         f"With a **market cap of ${stock['market cap']:,}**, this stock is financially stable and suitable for long-term investing.",
         f"A **P/E ratio of {stock['p/e ratio']}** suggests this stock is {'fairly valued' if 10 <= stock['p/e ratio'] <= 30 else 'potentially overvalued'}.",
         f"The **Sharpe Ratio of {stock['sharpeRatio']}** indicates {'strong risk-adjusted returns' if stock['sharpeRatio'] > 1 else 'moderate returns'}.",
@@ -105,4 +105,4 @@ def recommend_stocks(investor_profile):
     return "\n\n".join(recommendations)
 
 # Get recommendations for 3 random stocks
-print(recommend_stocks(investor_profile))
+# print(recommend_stocks(investor_profile))
