@@ -2,30 +2,68 @@
     <head>
         <div>
             <header style="background-color: rgb(211, 17, 17);height: 50px;">
-                <img src="https://www17.wellsfargomedia.com/assets/images/rwd/wf_logo_220x23.png" alt="Wells Fargo Home Page" style="padding-top: 15px;padding-left: 20px;">
+                
                 <span style="padding-left: 20%;font-weight: bolder; font-family: Arial, Helvetica, sans-serif; color: #fff;"> Personalized Stock Recommendation System </span>
             </header>
         </div>
         
     </head>
     <body>
-        <form name="testData" action="/predict" method="get">
+        <form name="testData" action="/addNewCustomer" method="post">
             <table style="margin-left: 35%; margin-top: 10%;">
                 <tr>
                     <td>Customer ID</td>
-                    <td><input type="text" name="customerID"></td>
+                    <td><input type="text" name="customerID" value="NewCustomer1"></td>
+                </tr>
+                <!-- Name,Age,Gender,Region,Income,Existing_Loans,Loan_Amount,
+                 Credit_Card_Debt,Savings,Investments,Credit_Score,Employment_Status  -->
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" name="name"></td>
                 </tr>
                 <tr>
-                    <td>Investment Amount</td>
-                    <td><input type="text" name="invAmt"></td>
+                    <td>Age</td>
+                    <td><input type="text" name="age"></td>
                 </tr>
                 <tr>
-                    <td>Tenure</td>
-                    <td><input type="text" name="tenure"></td>
+                    <td>Gender</td>
+                    <td><input type="text" name="gender"></td>
                 </tr>
                 <tr>
-                    <td>Expected returns in %</td>
-                    <td><input type="text" name="returnsPersent"></td>
+                    <td>Region</td>
+                    <td><input type="text" name="region"></td>
+                </tr>
+                <tr>
+                    <td>Income</td>
+                    <td><input type="text" name="income"></td>
+                </tr>
+                <tr>
+                    <td>Existing_Loans</td>
+                    <td><input type="text" name="Existing_Loans"></td>
+                </tr>
+                <tr>
+                    <td>Loan_Amount</td>
+                    <td><input type="text" name="Loan_Amount"></td>
+                </tr>
+                <tr>
+                    <td>Credit_Card_Debt</td>
+                    <td><input type="text" name="Credit_Card_Debt"></td>
+                </tr>
+                <tr>
+                    <td>Savings</td>
+                    <td><input type="text" name="Savings"></td>
+                </tr>
+                <tr>
+                    <td>Investments</td>
+                    <td><input type="text" name="Investments"></td>
+                </tr>
+                <tr>
+                    <td>Credit_Score</td>
+                    <td><input type="text" name="Credit_Score"></td>
+                </tr>
+                <tr>
+                    <td>Employment_Status</td>
+                    <td><input type="text" name="Employment_Status"></td>
                 </tr>
                 <tr>
                     <td><div style="height: 15px;"></div><input type="submit"></td>

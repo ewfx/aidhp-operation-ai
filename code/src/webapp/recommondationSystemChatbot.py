@@ -1,13 +1,13 @@
 import random
-from stockRecommender import *
 from riskScoreCalculator import *
+from recommender_service import *
 
 responses = {
     "hello": ["Hi, Please provide your CustomerId"],
-    "hi": ["Hi, Please provide your CustomerId"],
+    "hi": ["Hi, Are you Existing Customer? (yes/no)"],    
     "how are you": ["I'm doing great!", "I'm here to assist you."],
     "bye": ["Goodbye!", "Take care!"],
-    "CustomerId": ["Do you have investment plans? (yes/no)"],
+    "Ready": ["Do you have investment plans? (yes/no)"],
     
 }
 
@@ -19,35 +19,27 @@ returnsPer = 0
 
 
 def getRecommendedStocksAndAssets():
-    # customerDataRecord = fetchCustomerData(userContext['customerID'])
-    customerDataRecord = {
-  "Customer_ID": 100009,
-  "Name": "Customer_9",
-  "Age": 75,
-  "Gender": "Female",
-  "Location": "Rural",
-  "Annual_Income": 193226,
-  "Has_Loan": "Yes",
-  "Loan_Amount": 422772,
-  "Monthly_Expenses": 7408,
-  "Credit_Score": 11181,
-  "Savings": 126017,
-  "Debt": 586,
-  "Employment_Status": "Employed",
-  "Risk_Score": 36.68
-}
+    customerDataRecord = fetchCustomerData(int(userContext['customerID']))
+    return recommend_stocks(customerDataRecord)
+    # # risk_score = predict_risk(customerDataRecord)
+    # # customerDataRecord["Risk_Score"] = risk_score
 
-    # risk_score = predict_risk(customerDataRecord)
-    customerDataRecord["Risk_Score"] = 36.68
-    return recommend_stock(customerDataRecord)
+    # # print(customerDataRecord)
+
+    # return "Sample records"
+
+
     
 
 def get_response(user_input):       
     user_input = user_input.lower()
+
+    if user_input == 'repeat':
+        return getRecommendedStocksAndAssets()
     
     for key in responses.keys():
         if key in user_input:
-            userContext['question'] =  responses[key]
+            userContext['question'] =  responses[key][0]
             return random.choice(responses[key])
     
     #print('userinput:'+user_input)
@@ -55,7 +47,15 @@ def get_response(user_input):
     #print('previousQuestion:'+ previousQuestion)
 
     nextQuestion = "Hi" 
-    if 'CustomerId' in previousQuestion:
+    if previousQuestion == "Hi, Are you Existing Customer? (yes/no)":
+        if user_input == "yes":
+            nextQuestion = "Please provide your CustomerId"
+        else:
+            return "Please share your details in the form. After submitting please say 'Ready'" \
+            "http://127.0.0.1:5000/newCustomer"
+
+
+    elif previousQuestion == "Please provide your CustomerId":
         userContext['customerID']=user_input
         nextQuestion = "Do you have investment plans? (yes/no)"
         
@@ -64,15 +64,17 @@ def get_response(user_input):
         
     elif previousQuestion == "How much you want to invest?":
         nextQuestion = "Tenure?"
-        investmentAmt=user_input
+        userContext['investmentAmt']=user_input
         
     elif previousQuestion == "Tenure?":
         nextQuestion = "Expected Returns (in percentage)?"
-        tenure = user_input
+        userContext['tenure'] = user_input
         
     elif previousQuestion == "Expected Returns (in percentage)?":
-        returnsPer=user_input
+        userContext['returnsPer']=user_input
         return getRecommendedStocksAndAssets()
+    
+   
 
     print("nextquestion:"+ nextQuestion)
     if nextQuestion == "Hi":
